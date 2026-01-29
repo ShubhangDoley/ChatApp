@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Welcome $userName !",style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
         actions: [
           IconButton(
             onPressed: () {
