@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'checkuser.dart';
 import 'notificationservices.dart';
-import 'aboutuspage.dart';
+// import 'aboutuspage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
