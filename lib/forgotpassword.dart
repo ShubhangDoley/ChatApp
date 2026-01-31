@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 // import 'loginpage.dart';
 class Forgotpassword extends StatefulWidget {
   const Forgotpassword({super.key});
-
   @override
   State<Forgotpassword> createState() => _ForgotpasswordState();
 }

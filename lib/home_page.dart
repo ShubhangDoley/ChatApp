@@ -97,7 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Welcome $userName !",style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
+        backgroundColor: Colors.lightBlue.shade100,
+        toolbarHeight: 70,
+        title: Text("DoodleChat",style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold,fontStyle: FontStyle.normal),),
         actions: [
           IconButton(
             onPressed: () {

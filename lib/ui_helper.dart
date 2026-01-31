@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:chatapp/aboutuspage.dart';
 
 class UiHelper {
   static customTextField(
@@ -150,7 +151,9 @@ class UiHelper {
                 // ),
                 const Divider(),
                 _buildDrawerItem(Icons.settings_outlined, 'Settings', () {}),
-                _buildDrawerItem(Icons.info_outline, 'About Us', () {}),
+                _buildDrawerItem(Icons.info_outline, 'About Us', () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUsPage()));
+                }),
               ],
             ),
           ),
