@@ -100,3 +100,4 @@ lib/
 
 ## 📜 License
 This project is for educational purposes. Feel free to use and modify it!
+## use this link to download and use on Android devices: https://github.com/ShubhangDoley/ChatApp/releases/download/v1.0.0/app-release.apk
