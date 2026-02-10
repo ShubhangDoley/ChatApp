@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:chatapp/aboutuspage.dart';
 
 class UiHelper {
+  static const Color primaryColor = Color(0xFF5C6BC0);
+  static const Color bgColor = Color(0xFFF5F7FA);
+  static const Color cardColor = Colors.white;
+  static const Color textPrimary = Color(0xFF2D3748);
+  static const Color textSecondary = Color(0xFF718096);
+
   static customTextField(
     TextEditingController controller,
     String text,
@@ -10,15 +16,26 @@ class UiHelper {
     bool toHide,
   ) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: TextField(
-        style: TextStyle(color: Colors.black),
-        controller: controller,
-        obscureText: toHide,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
-          hintText: text,
-          suffixIcon: Icon(icon),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: TextField(
+          controller: controller,
+          obscureText: toHide,
+          style: TextStyle(color: textPrimary),
+          decoration: InputDecoration(
+            hintText: text,
+            hintStyle: TextStyle(color: textSecondary),
+            prefixIcon: Icon(icon, color: textSecondary),
+            border: InputBorder.none,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
+          ),
         ),
       ),
     );
@@ -26,17 +43,25 @@ class UiHelper {
 
   static customButton(VoidCallback voidCallback, String text, int w) {
     return SizedBox(
-      height: 40,
+      height: 48,
       width: w.toDouble(),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
+          backgroundColor: primaryColor,
+          elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(12),
           ),
         ),
         onPressed: voidCallback,
-        child: Text(text, style: TextStyle(color: Colors.white, fontSize: 20)),
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }
@@ -48,30 +73,33 @@ class UiHelper {
   ) {
     return showDialog<bool>(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context, false);
-              },
-              child: const Text('No'),
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          title,
+          style: TextStyle(color: textPrimary, fontWeight: FontWeight.w600),
+        ),
+        content: Text(message, style: TextStyle(color: textSecondary)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text('No', style: TextStyle(color: textSecondary)),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(
+              'Yes',
+              style: TextStyle(
+                color: primaryColor,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context, true);
-              },
-              child: const Text('Yes'),
-            ),
-          ],
-        );
-      },
+          ),
+        ],
+      ),
     );
   }
 
-  /*used for welcome message at the start */
   static Future<void> showAlert(
     BuildContext context,
     String title,
@@ -79,22 +107,26 @@ class UiHelper {
   ) {
     return showDialog<void>(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          alignment: Alignment.bottomCenter,
-          backgroundColor: Colors.blue.shade100,
-          title: Text(title, style: TextStyle(color: Colors.black)),
-          content: Text(message, style: TextStyle(color: Colors.black)),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('OK', style: TextStyle(color: Colors.black)),
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          title,
+          style: TextStyle(color: textPrimary, fontWeight: FontWeight.w600),
+        ),
+        content: Text(message, style: TextStyle(color: textSecondary)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'OK',
+              style: TextStyle(
+                color: primaryColor,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ],
-        );
-      },
+          ),
+        ],
+      ),
     );
   }
 
@@ -109,77 +141,92 @@ class UiHelper {
     return Drawer(
       child: Column(
         children: [
-          UserAccountsDrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Colors.blue.shade700, Colors.blue.shade400],
-              ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top + 24,
+              bottom: 24,
+              left: 20,
+              right: 20,
             ),
-            accountName: Text(
-              userName,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            accountEmail: Text(userEmail),
-            currentAccountPicture: GestureDetector(
-              onTap: onProfileTap,
-              child: pickedImage == null
-                  ? const CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.person, size: 45, color: Colors.blue),
-                    )
-                  : CircleAvatar(backgroundImage: FileImage(pickedImage)),
+            color: primaryColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: onProfileTap,
+                  child: pickedImage == null
+                      ? const CircleAvatar(
+                          radius: 32,
+                          backgroundColor: Colors.white24,
+                          child: Icon(
+                            Icons.person,
+                            size: 36,
+                            color: Colors.white,
+                          ),
+                        )
+                      : CircleAvatar(
+                          radius: 32,
+                          backgroundImage: FileImage(pickedImage),
+                        ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  userName,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  userEmail,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.8),
+                    fontSize: 14,
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                _buildDrawerItem(
-                  Icons.home_outlined,
-                  'Home',
-                  () => Navigator.pop(context),
+                ListTile(
+                  leading: Icon(Icons.home_outlined, color: textSecondary),
+                  title: Text('Home', style: TextStyle(color: textPrimary)),
+                  onTap: () => Navigator.pop(context),
                 ),
-                // _buildDrawerItem(Icons.person_outline, 'Profile', () {}),
-                // _buildDrawerItem(Icons.quiz_outlined, 'My Quizzes', () {}),
-                // _buildDrawerItem(
-                //   Icons.leaderboard_outlined,
-                //   'Leaderboard',
-                //   () {},
-                // ),
-                const Divider(),
-                _buildDrawerItem(Icons.settings_outlined, 'Settings', () {}),
-                _buildDrawerItem(Icons.info_outline, 'About Us', () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUsPage()));
-                }),
+                ListTile(
+                  leading: Icon(Icons.settings_outlined, color: textSecondary),
+                  title: Text('Settings', style: TextStyle(color: textPrimary)),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.info_outline, color: textSecondary),
+                  title: Text('About Us', style: TextStyle(color: textPrimary)),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => AboutUsPage()),
+                  ),
+                ),
               ],
             ),
           ),
-          const Divider(),
-          _buildDrawerItem(
-            Icons.logout,
-            'Logout',
-            onLogout,
-            color: Colors.redAccent,
+          const Divider(height: 1),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.redAccent),
+            title: const Text(
+              'Logout',
+              style: TextStyle(color: Colors.redAccent),
+            ),
+            onTap: onLogout,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 8),
         ],
       ),
-    );
-  }
-
-  static Widget _buildDrawerItem(
-    IconData icon,
-    String title,
-    VoidCallback onTap, {
-    Color? color,
-  }) {
-    return ListTile(
-      leading: Icon(icon, color: color),
-      title: Text(title, style: TextStyle(color: color)),
-      onTap: onTap,
     );
   }
 }

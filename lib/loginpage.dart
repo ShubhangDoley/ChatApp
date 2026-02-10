@@ -17,6 +17,11 @@ class _LoginpageState extends State<Loginpage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  static const Color primaryColor = Color(0xFF5C6BC0);
+  static const Color bgColor = Color(0xFFF5F7FA);
+  static const Color textPrimary = Color(0xFF2D3748);
+  static const Color textSecondary = Color(0xFF718096);
+
   login(String email, String password) async {
     if (email.isEmpty || password.isEmpty) {
       UiHelper.CustomAlertDialog(
@@ -28,7 +33,7 @@ class _LoginpageState extends State<Loginpage> {
       UiHelper.CustomAlertDialog(
         context,
         'Error',
-        'Password must be at least 6 characters long',
+        'Password must be at least 6 characters',
       );
     } else {
       try {
@@ -41,7 +46,7 @@ class _LoginpageState extends State<Loginpage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => MyHomePage(title: 'My Home Page'),
+              builder: (_) => MyHomePage(title: 'My Home Page'),
             ),
           );
         }
@@ -54,88 +59,137 @@ class _LoginpageState extends State<Loginpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login Page'), centerTitle: true),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Login Page',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            UiHelper.customTextField(
-              emailController,
-              'Email',
-              Icons.email,
-              false,
-            ),
-            UiHelper.customTextField(
-              passwordController,
-              'Password',
-              Icons.password,
-              false,
-            ),
-            SizedBox(height: 15),
-            UiHelper.customButton(
-              () {
-                login(
-                  emailController.text.toString(),
-                  passwordController.text.toString(),
-                );
-              },
-              'Login',
-              100,
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => Forgotpassword()),
-                );
-              },
-              child: Text(
-                'Forgot Password',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Row(
+      backgroundColor: bgColor,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Don't have an account?"),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => Signuppage()),
-                    );
-                  },
-                  child: Text('Sign Up'),
+                Icon(Icons.chat_bubble_rounded, size: 64, color: primaryColor),
+                const SizedBox(height: 16),
+                Text(
+                  'DoodleChat',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Welcome back!',
+                  style: TextStyle(color: textSecondary, fontSize: 16),
+                ),
+                const SizedBox(height: 40),
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    children: [
+                      UiHelper.customTextField(
+                        emailController,
+                        'Email',
+                        Icons.email_outlined,
+                        false,
+                      ),
+                      const SizedBox(height: 4),
+                      UiHelper.customTextField(
+                        passwordController,
+                        'Password',
+                        Icons.lock_outline,
+                        true,
+                      ),
+                      const SizedBox(height: 20),
+                      UiHelper.customButton(
+                        () => login(
+                          emailController.text,
+                          passwordController.text,
+                        ),
+                        'Login',
+                        200,
+                      ),
+                      const SizedBox(height: 12),
+                      TextButton(
+                        onPressed: () => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => Forgotpassword()),
+                        ),
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(color: primaryColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account? ",
+                      style: TextStyle(color: textSecondary),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => Signuppage()),
+                      ),
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(color: textSecondary.withOpacity(0.3)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text('or', style: TextStyle(color: textSecondary)),
+                    ),
+                    Expanded(
+                      child: Divider(color: textSecondary.withOpacity(0.3)),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                OutlinedButton.icon(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => Phoneauth()),
+                  ),
+                  icon: Icon(Icons.phone_outlined, color: textSecondary),
+                  label: Text(
+                    'Login with OTP',
+                    style: TextStyle(color: textSecondary),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: textSecondary.withOpacity(0.3)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('login with OTP'),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Phoneauth()),
-                      );
-                    },
-                    child: Text('here'),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
