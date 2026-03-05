@@ -1,30 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'checkuser.dart';
-import 'notificationservices.dart';
-// import 'aboutuspage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'app/app.dart';
+import 'app/bloc_observer.dart';
+import 'data/services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await Firebase.initializeApp();
-  } catch (e) {
-    debugPrint("Firebase initialization error: $e");
+  } catch (error) {
+    debugPrint('Firebase initialization error: $error');
   }
-  await Notificationservices.initialize();
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
-      home:  Checkuser(),
-    );
-  }
+  await NotificationService.initialize();
+  Bloc.observer = AppBlocObserver();
+  runApp(const ChatApp());
 }
