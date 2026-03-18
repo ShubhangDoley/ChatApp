@@ -97,7 +97,7 @@ class _GroupChatsView extends StatelessWidget {
             Icon(
               Icons.groups_outlined,
               size: 64,
-              color: AppTheme.textSecondary.withOpacity(0.45),
+              color: AppTheme.textSecondary.withValues(alpha: 0.45),
             ),
             const SizedBox(height: 12),
             const Text(
@@ -131,14 +131,20 @@ class _GroupChatsView extends StatelessWidget {
                 builder: (_) => GroupChatRoomPage(
                   groupId: group.groupId,
                   groupName: group.name,
+                  iconUrl: group.iconUrl,
                 ),
               ),
             ),
-            leading: const CircleAvatar(
-              radius: 24,
-              backgroundColor: AppTheme.bgColor,
-              child: Icon(Icons.group, color: AppTheme.textSecondary),
-            ),
+            leading: group.iconUrl.isNotEmpty
+                ? CircleAvatar(
+                    radius: 24,
+                    backgroundImage: NetworkImage(group.iconUrl),
+                  )
+                : const CircleAvatar(
+                    radius: 24,
+                    backgroundColor: AppTheme.bgColor,
+                    child: Icon(Icons.group, color: AppTheme.textSecondary),
+                  ),
             title: Text(
               group.name,
               style: const TextStyle(

@@ -10,16 +10,20 @@ import '../../../auth/bloc/auth_state.dart';
 import '../../bloc/group_chat_room_bloc.dart';
 import '../../bloc/group_chat_room_event.dart';
 import '../../bloc/group_chat_room_state.dart';
+import 'group_info_page.dart';
+
 
 class GroupChatRoomPage extends StatelessWidget {
   const GroupChatRoomPage({
     super.key,
     required this.groupId,
     required this.groupName,
+    this.iconUrl = '',
   });
 
   final String groupId;
   final String groupName;
+  final String iconUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +33,16 @@ class GroupChatRoomPage extends StatelessWidget {
         groupChatRepository: context.read<GroupChatRepository>(),
         groupId: groupId,
       )..add(const GroupChatRoomStarted()),
-      child: _GroupChatRoomView(groupName: groupName),
+      child: _GroupChatRoomView(groupName: groupName, iconUrl: iconUrl),
     );
   }
 }
 
 class _GroupChatRoomView extends StatefulWidget {
-  const _GroupChatRoomView({required this.groupName});
+  const _GroupChatRoomView({required this.groupName, this.iconUrl = ''});
 
   final String groupName;
+  final String iconUrl;
 
   @override
   State<_GroupChatRoomView> createState() => _GroupChatRoomViewState();
@@ -84,28 +89,55 @@ class _GroupChatRoomViewState extends State<_GroupChatRoomView> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: Row(
-                children: [
-                  const CircleAvatar(
-                    radius: 18,
-                    backgroundColor: AppTheme.bgColor,
-                    child: Icon(Icons.group, color: AppTheme.textSecondary),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      widget.groupName,
-                      style: const TextStyle(
-                        color: AppTheme.textPrimary,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+              title: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () async {
+                  final deleted = await Navigator.of(context).push<bool>(
+                    MaterialPageRoute(
+                      builder: (_) => GroupInfoPage(
+                        groupId: context
+                            .read<GroupChatRoomBloc>()
+                            .groupId,
+                        groupName: widget.groupName,
                       ),
-                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
+                  );
+                  if ((deleted ?? false) && context.mounted) {
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                  }
+                },
+                child: Row(
+                  children: [
+                    widget.iconUrl.isNotEmpty
+                        ? CircleAvatar(
+                            radius: 18,
+                            backgroundImage: NetworkImage(widget.iconUrl),
+                          )
+                        : const CircleAvatar(
+                            radius: 18,
+                            backgroundColor: AppTheme.bgColor,
+                            child: Icon(
+                              Icons.group,
+                              color: AppTheme.textSecondary,
+                            ),
+                          ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        widget.groupName,
+                        style: const TextStyle(
+                          color: AppTheme.textPrimary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
+
             body: Column(
               children: [
                 Expanded(child: _messagesList(state, currentUserId)),
@@ -131,7 +163,7 @@ class _GroupChatRoomViewState extends State<_GroupChatRoomView> {
             Icon(
               Icons.groups_outlined,
               size: 48,
-              color: AppTheme.textSecondary.withOpacity(0.5),
+              color: AppTheme.textSecondary.withValues(alpha: 0.5),
             ),
             const SizedBox(height: 12),
             const Text(

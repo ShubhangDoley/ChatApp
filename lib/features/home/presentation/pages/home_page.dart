@@ -8,7 +8,6 @@ import '../../../../core/widgets/loading_view.dart';
 import '../../../../data/repositories/auth_repository.dart';
 import '../../../../data/repositories/chat_repository.dart';
 import '../../../../data/repositories/user_repository.dart';
-import '../../../about/presentation/pages/about_page.dart';
 import '../../../auth/bloc/auth_bloc.dart';
 import '../../../auth/bloc/auth_event.dart';
 import '../../../auth/bloc/auth_state.dart';
@@ -300,16 +299,6 @@ class _HomeView extends StatelessWidget {
                   leading: const Icon(Icons.home_outlined),
                   title: const Text('Home'),
                   onTap: () => Navigator.of(context).pop(),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.info_outline),
-                  title: const Text('About Us'),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const AboutPage()),
-                    );
-                  },
                 ),
               ],
             ),
