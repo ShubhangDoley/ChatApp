@@ -15,6 +15,8 @@ ChatApp is a modern, feature-rich messaging application built with **Flutter** a
 ### 💬 Messaging
 *   **User Search**: Find other users by their email or username.
 *   **Real-time Chatting**: Instant message delivery and updates powered by Cloud Firestore.
+*   **Group Chats**: Create and manage groups, chat with multiple users simultaneously.
+*   **Message Encryption**: Secure conversations with encrypted messages.
 *   **Push Notifications**: Receive alerts for new messages even when the app is in the background.
 
 ### 🎨 UI/UX
@@ -35,7 +37,8 @@ ChatApp is a modern, feature-rich messaging application built with **Flutter** a
     *   **Cloud Firestore**: For real-time database and chat history.
     *   **Firebase Storage**: For storing profile pictures and media.
     *   **Firebase Messaging (FCM)**: For cross-platform push notifications.
-*   **State Management**: `StatefulWidget` / `setState` (Native Flutter).
+*   **State Management**: `BLoC` (Business Logic Component) pattern for robust, scalable state management.
+*   **Architecture**: Clean Architecture / Feature-first structure.
 
 ---
 
@@ -43,19 +46,19 @@ ChatApp is a modern, feature-rich messaging application built with **Flutter** a
 
 ```text
 lib/
-├── aboutuspage.dart        # Premium About Us screen
-├── chat_room.dart          # Real-time chat interface
-├── checkuser.dart          # Auth state management / entry logic
-├── forgotpassword.dart     # Password reset screen
-├── home_page.dart          # Main dashboard & contact list
-├── loginpage.dart          # User login screen
-├── main.dart               # App entry point & Firebase initialization
-├── notificationservices.dart # Firebase Messaging setup
-├── otpscreen.dart          # OTP verification screen
-├── phoneauth.dart          # Phone number entry for OTP
-├── search_page.dart        # User search functionality
-├── signuppage.dart         # User registration screen
-└── ui_helper.dart          # Common UI components & reusable widgets
+├── app/                  # App setup, routing, and themes
+├── core/                 # Shared widgets, utilities, constants, and extensions
+├── data/                 # Repositories, models, and data sources 
+├── features/             # Feature-first modules (Auth, Home, Chat, Group, etc.)
+│   ├── about/            # About Us feature
+│   ├── auth/             # Authentication & Sign up
+│   ├── chat_room/        # 1-on-1 Chat facility
+│   ├── group_chat_room/  # Group Chat facility
+│   ├── group_list/       # Listing user groups
+│   ├── home/             # Main Dashboard
+│   ├── search/           # Searching users
+│   └── splash/           # Splash screen and initialization
+└── main.dart             # Application entry point
 ```
 
 ---
@@ -90,14 +93,5 @@ lib/
 
 ---
 
-## 👷 Developer
-
-**Shubhang Doley**
-*   [GitHub](https://github.com/ShubhangDoley)
-*   Made with ❤️ in Flutter
-
----
-
 ## 📜 License
 This project is for educational purposes. Feel free to use and modify it!
-## use this link to download and use on Android devices: https://github.com/ShubhangDoley/ChatApp/releases/download/v1.0.0/app-release.apk
